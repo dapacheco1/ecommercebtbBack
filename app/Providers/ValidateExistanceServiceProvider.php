@@ -14,9 +14,9 @@
             $find = $model::where($whereArg,$stringSearch)->first();
             $className = explode("\\",$model)[2];
             if($find){
-                $response = ResponseBuilderServiceProvider::buildResponse(false,"$className already exists",$find);
+                $response = ResponseBuilderServiceProvider::buildResponse(true,"$className already exists",$find);
             }else{
-                $response = ResponseBuilderServiceProvider::buildResponse(true,"$className doesnt exists",false);
+                $response = ResponseBuilderServiceProvider::buildResponse(false,"$className doesnt exists",false);
             }
             return $response;
         }

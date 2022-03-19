@@ -8,10 +8,7 @@ use Illuminate\Http\Request;
 
 class RolController extends Controller
 {
-     #inverse relationships
-     public function relationWithUsers(){
-        return $this->belongsTo(User::class);
-    }
+    
 
     //CREATES ROL
     public function createRol(Request $request){
@@ -20,7 +17,7 @@ class RolController extends Controller
         $valid = validateExistanceServiceProvider::validateExistanceData($rol->detail,Rol::class,"detail");
         $response = [];
 
-        if($valid["success"]){
+        if(!$valid["success"]){
 
             $rols = new Rol();
             $rols->detail = $rol->detail;

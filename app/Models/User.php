@@ -18,4 +18,18 @@ class User extends Model
     //hidden data when request with HTTP methods
     protected $hidden = ["password"];
 
+
+     #DIRECT RELATIONSHIPS
+     public function person(){
+        return $this->hasOne(Person::class);
+    }
+
+    public function rol(){
+        return $this->hasOne(Rol::class);
+    }
+
+    // public function relationWithCart(){
+    //     returh $this->hasMany(Cart::class);
+    // }
+
 }

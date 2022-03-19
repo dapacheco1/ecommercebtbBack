@@ -14,4 +14,9 @@ class Rol extends Model
 
     //data columns can manipulate
     protected $fillable = ["detail","status"];
+
+     #inverse relationships
+     public function relationWithUsers(){
+        return $this->belongsTo(User::class);
+    }
 }

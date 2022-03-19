@@ -10,10 +10,7 @@ use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-    #inverse relationships
-    public function relationWithPersons(){
-        return $this->belongsTo(Person::class);
-    }
+    
 
     //create genre
     public function createGenre(Request $request){
@@ -22,7 +19,7 @@ class GenreController extends Controller
         $valid = validateExistanceServiceProvider::validateExistanceData($genre->genre,Genre::class,"genre");
         $response = [];
 
-        if($valid["success"]){
+        if(!$valid["success"]){
 
             $gen = new Genre();
             $gen->genre = $genre->genre;

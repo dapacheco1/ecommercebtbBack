@@ -14,4 +14,9 @@ class Genre extends Model
 
     //data columns can manipulate
     protected $fillable = ["genre","status"];
+
+    #direct relation
+    public function person(){
+        return $this->hasMany(Person::class);
+    }
 }
