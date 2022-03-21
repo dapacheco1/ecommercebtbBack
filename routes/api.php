@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClothingController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +27,15 @@ Route::get('/genre',[GenreController::class,"getGenres"]);
 
 // Route::post('/rol',[RolController::class,"createRol"]);
 // Route::get('/rol',[RolController::class,"getRols"]);
+//Route::get('/categories',[CategoryController::class,"getCategories"]);
+//Route::get('/sizes',[SizeController::class,"getSizes"]);
 
 
 ######## FOR ADMIN CORE AND CLIENT FRONT-END##########
 // Route::post('/person',[PersonController::class,"createPerson"]);
 // Route::get('/person',[PersonController::class,"getPersons"]);
+
+Route::get('/clothing/{category}',[ClothingController::class,"getClothes"]);
 
 Route::post('/users',[UserController::class,"createUser"]);
 //Route::get('/users',[UserController::class,"getPersons"]);

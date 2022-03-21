@@ -19,4 +19,8 @@ class Genre extends Model
     public function person(){
         return $this->hasMany(Person::class);
     }
+
+    public function clothing(){
+        return $this->hasMany(Clothing::class);
+    }
 }
