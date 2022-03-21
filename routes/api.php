@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 ########### FOR ADMIN CORE #######
 // Route::post('/genre',[GenreController::class,"createGenre"]);
-// Route::get('/genre',[GenreController::class,"getGenres"]);
+Route::get('/genre',[GenreController::class,"getGenres"]);
 
 // Route::post('/rol',[RolController::class,"createRol"]);
 // Route::get('/rol',[RolController::class,"getRols"]);
