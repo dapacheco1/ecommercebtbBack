@@ -88,6 +88,22 @@ class CartController extends Controller
         }
         return response()->json($response);
     }
+
+
+    public function deleteCartByUserId($id){
+        $find = Cart::where("user_id",$id)->get();
+        $response = [];
+        if(count($find)!=0){
+            foreach($find as $f){
+                $f->delete();
+            }
+            $response =  ResponseBuilderServiceProvider::buildResponse(true,"cart deleted",$find);
+        }else{
+            $response =  ResponseBuilderServiceProvider::buildResponse(false,"cannot delete the cart",false);
+        }
+
+        return response()->json($response);
+    }
     // private function updateStock($clothing_id,$amount){
     //     $compare = Clothing::find($clothing_id);
     //     if($amount <= $compare->stock){

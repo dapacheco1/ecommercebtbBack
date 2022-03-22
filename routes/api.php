@@ -44,5 +44,6 @@ Route::post('/users',[UserController::class,"createUser"]);
 Route::post('/users/auth',[UserController::class,"authenticateUser"]);
 
 Route::post('/cart',[CartController::class,"addToCart"]);
+Route::delete('/cart/{id}',[CartController::class,"deleteCartByUserId"]);
 Route::post('/cart/update',[CartController::class,"updateCart"]);
 Route::get('/cart/{id}',[CartController::class,"getCartByUserId"]);
