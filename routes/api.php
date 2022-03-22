@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClothingController;
 use App\Http\Controllers\GenreController;
@@ -41,3 +42,5 @@ Route::post('/users',[UserController::class,"createUser"]);
 //Route::get('/users',[UserController::class,"getPersons"]);
 
 Route::post('/users/auth',[UserController::class,"authenticateUser"]);
+
+Route::post('/cart',[CartController::class,"addToCart"]);

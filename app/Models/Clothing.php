@@ -13,6 +13,11 @@ class Clothing extends Model
 
     protected $fillable = ["category_id","size_id","price","stock","image","name","detail","genre_id","status"];
 
+    #direct relationship
+    public function cart(){
+        return $this->hasMany(Cart::class);
+    }
+
     #inverse relationship
     public function category(){
         return $this->belongsTo(Category::class);
@@ -25,5 +30,5 @@ class Clothing extends Model
     public function size(){
         return $this->belongsTo(Clothing::class);
     }
-    
+
 }

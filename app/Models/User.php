@@ -28,8 +28,8 @@ class User extends Model
         return $this->hasOne(Rol::class);
     }
 
-    // public function relationWithCart(){
-    //     returh $this->hasMany(Cart::class);
-    // }
+    public function cart(){
+        return $this->hasMany(Cart::class);
+    }
 
 }
