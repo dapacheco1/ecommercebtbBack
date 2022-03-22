@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Clothing;
 use App\Providers\ResponseBuilderServiceProvider;
+use App\Providers\validateExistanceServiceProvider;
 use Illuminate\Http\Request;
 
 class ClothingController extends Controller
 {
     public function getClothes($categoryId){
-        $clothe  = Clothing::where("category_id",$categoryId)->get();
-        
+        //$clothe  = Clothing::where("category_id",$categoryId)->get();
+        $clotheR = validateExistanceServiceProvider::validateExistanceData($categoryId,Clothing::class,"category_id");
         $response = [];
 
-        if($clothe){
+        if($clotheR["success"]){
+            $clothe  = Clothing::where("category_id",$categoryId)->get();
             foreach($clothe as $c){
                 $c->genre;
                 $c->category;
