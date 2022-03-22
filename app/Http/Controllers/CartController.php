@@ -36,10 +36,6 @@ class CartController extends Controller
             $response = ResponseBuilderServiceProvider::buildResponse(false, "Invalid Product or user", false);
         }
 
-
-
-
-
         return response()->json($response);
     }
 
