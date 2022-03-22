@@ -39,6 +39,7 @@ class CartController extends Controller
                 //update if client tries to add more items on cart
                 $cr = $hasUsProd[0];
                 $cr->amount +=$cart->amount;
+                $cr->total += $cart->total;
                 $cr->save();
                 $response = ResponseBuilderServiceProvider::buildResponse(true, "Product updated on cart", $cr);
             }
@@ -48,6 +49,14 @@ class CartController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function getCartByUserId($id){
+        $find = Cart::where("user_id",$id)->get();
+        foreach($find as $f){
+            $f->clothing;
+        }
+        return ResponseBuilderServiceProvider::buildResponse(true,"All your cart",$find);
     }
 
     // private function updateStock($clothing_id,$amount){
