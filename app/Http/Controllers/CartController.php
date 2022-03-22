@@ -21,7 +21,7 @@ class CartController extends Controller
 
         if($validUs["success"] && $validCloth["success"]){
             $hasUsProd = Cart::where('user_id',$cart->user_id)->where("clothing_id",$cart->clothing_id)->get();
-            
+
             $cr = new Cart();
             //build cart
             $cr->user_id = $cart->user_id;
@@ -31,7 +31,7 @@ class CartController extends Controller
             $cr->amount = $cart->amount;
             $cr->total = $cart->total;
             $cr->total = $cart->total;
-            $cr->status = $cart->status;  
+            $cr->status = $cart->status;
             if(count($hasUsProd)==0){
                 $cr->save();
                 $response = ResponseBuilderServiceProvider::buildResponse(true, "Product saved on cart", $cr);
@@ -43,7 +43,7 @@ class CartController extends Controller
                 $cr->save();
                 $response = ResponseBuilderServiceProvider::buildResponse(true, "Product updated on cart", $cr);
             }
-            
+
         }else{
             $response = ResponseBuilderServiceProvider::buildResponse(false, "Invalid Product or user", false);
         }
@@ -53,12 +53,41 @@ class CartController extends Controller
 
     public function getCartByUserId($id){
         $find = Cart::where("user_id",$id)->get();
-        foreach($find as $f){
-            $f->clothing;
+        $response = [];
+
+        if(count($find)!=0){
+            foreach($find as $f){
+                $f->clothing;
+            }
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"All your cart",$find);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"This user dont have any cart products",false);
         }
-        return ResponseBuilderServiceProvider::buildResponse(true,"All your cart",$find);
+
+        return response()->json($response);
+
     }
 
+    public function updateCart(Request $request){
+        $find = Cart::find($request->id);
+        $response = [];
+        if($find){
+            $find->amount = $request->amount;
+
+            if($find->amount == 0){
+                $find->delete();
+            }else{
+                $find->total = $request->total;
+                $find->save();
+            }
+
+
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"All your cart",$find);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"Cannot update your cart",false);
+        }
+        return response()->json($response);
+    }
     // private function updateStock($clothing_id,$amount){
     //     $compare = Clothing::find($clothing_id);
     //     if($amount <= $compare->stock){
