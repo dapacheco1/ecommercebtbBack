@@ -20,6 +20,8 @@ class CartController extends Controller
         $validCloth = validateExistanceServiceProvider::validateExistanceData($cart->clothing_id,Clothing::class,"id");
 
         if($validUs["success"] && $validCloth["success"]){
+            $hasUsProd = Cart::where('user_id',$cart->user_id)->where("clothing_id",$cart->clothing_id)->get();
+            
             $cr = new Cart();
             //build cart
             $cr->user_id = $cart->user_id;
@@ -29,9 +31,18 @@ class CartController extends Controller
             $cr->amount = $cart->amount;
             $cr->total = $cart->total;
             $cr->total = $cart->total;
-            $cr->status = $cart->status;
-            $cr->save();
-            $response = ResponseBuilderServiceProvider::buildResponse(true, "Product saved on cart", $cr);
+            $cr->status = $cart->status;  
+            if(count($hasUsProd)==0){
+                $cr->save();
+                $response = ResponseBuilderServiceProvider::buildResponse(true, "Product saved on cart", $cr);
+            }else{
+                //update if client tries to add more items on cart
+                $cr = $hasUsProd[0];
+                $cr->amount +=$cart->amount;
+                $cr->save();
+                $response = ResponseBuilderServiceProvider::buildResponse(true, "Product updated on cart", $cr);
+            }
+            
         }else{
             $response = ResponseBuilderServiceProvider::buildResponse(false, "Invalid Product or user", false);
         }

@@ -28,7 +28,7 @@ class Clothing extends Model
     }
 
     public function size(){
-        return $this->belongsTo(Clothing::class);
+        return $this->belongsTo(Size::class);
     }
 
 }
