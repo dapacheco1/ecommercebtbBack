@@ -6,6 +6,7 @@ use App\Http\Controllers\ClothingController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -47,3 +48,8 @@ Route::post('/cart',[CartController::class,"addToCart"]);
 Route::delete('/cart/{id}',[CartController::class,"deleteCartByUserId"]);
 Route::post('/cart/update',[CartController::class,"updateCart"]);
 Route::get('/cart/{id}',[CartController::class,"getCartByUserId"]);
+
+Route::get('/cart/{iduser}/{idcloth}',[CartController::class,"getItemCart"]);
+
+
+Route::post('/sell',[SaleController::class,"registerSale"]);

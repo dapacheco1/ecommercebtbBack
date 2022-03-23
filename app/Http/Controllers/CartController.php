@@ -63,8 +63,7 @@ class CartController extends Controller
         }else{
             $response = ResponseBuilderServiceProvider::buildResponse(false,"This user dont have any cart products",false);
         }
-
-        return response()->json($response);
+        return $response;
 
     }
 
@@ -102,8 +101,9 @@ class CartController extends Controller
             $response =  ResponseBuilderServiceProvider::buildResponse(false,"cannot delete the cart",false);
         }
 
-        return response()->json($response);
+        return $response;
     }
+
     // private function updateStock($clothing_id,$amount){
     //     $compare = Clothing::find($clothing_id);
     //     if($amount <= $compare->stock){

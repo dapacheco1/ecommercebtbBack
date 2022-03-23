@@ -29,4 +29,17 @@ class ClothingController extends Controller
         return response()->json($response);
 
     }
+
+
+    public function getClotheById($id){
+        $find = Clothing::find($id);
+        $response = [];
+        if($find){
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"cloth finded",$find);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"no data found",false);
+        }
+
+        return $response;
+    }
 }
