@@ -46,18 +46,22 @@ class SaleController extends Controller
                     if($expect["success"]){
                         $details->clothingprice = $expect["data"]->price;
                         $details->totalprice = $re->total;
-                        $save->save();
-                        $details->sale_id = $save->id;
-                        $details->save();
-                        if($this->updateStock($details->clothing_id,$details->amount)){
+                        $resAux = $this->updateStock($details->clothing_id,$details->amount);
+
+                        if($resAux==0){
+                            echo 'why';
+                            $save->save();
+                            $details->sale_id = $save->id;
+                            $details->save();
+                            //delete cart
+                            $cartO = new CartController();
+                            $crRes = $cartO->deleteCartByUserId($save->user_id);
                             $response = ResponseBuilderServiceProvider::buildResponse(true,"sale saved succesfully",array($save,$details));
+                        }else{
+                            $response = ResponseBuilderServiceProvider::buildResponse(false,"One or more products are out stock",false);
+                            break;
                         }
-
-                    }else{
-                        $response = ResponseBuilderServiceProvider::buildResponse(false,"clothe id not found",false);
-                        break;
                     }
-
                 }
 
             }else{
@@ -70,33 +74,40 @@ class SaleController extends Controller
             $response = ResponseBuilderServiceProvider::buildResponse(false,"status doesnt permit this action",false);
         }
 
-        //delete cart
-        $cartO = new CartController();
-        $crRes = $cartO->deleteCartByUserId($save->user_id);
-        if($crRes["success"]){
 
-            $response = ResponseBuilderServiceProvider::buildResponse(true,"Sale saved succesfully",array($save,$details));
-
-        }else{
-            $response = ResponseBuilderServiceProvider::buildResponse(false,"cannot delete the cart",false);
-
-        }
 
         return response()->json($response);
     }
 
 
-    private function updateStock($clothing_id,$amount){
+    public function updateStock($clothing_id,$amount){
         $compare = Clothing::find($clothing_id);
-        if($amount <= $compare->stock){
-            //update stock
-            $compare->stock -= $amount;
+        //update stock
+
+
+
+        $compare->stock -= $amount;
+
+        if(($amount < $compare->stock) && ($compare->stock>0)){
             $compare->save();
-            return true;
+            return 0;
         }else{
-            return false;
+            return 1;
         }
 
+    }
+
+    public function historySaleByUserId($id){
+        $find = Sale::where("user_id",$id)->get();
+        $response = [];
+
+        if(count($find)!=0){
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"your history data",$find);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"no data found in history sale",false);
+        }
+
+        return response()->json($response);
     }
 
 }
