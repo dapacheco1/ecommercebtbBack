@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Clothing;
 use App\Models\Sale;
 use App\Models\saleDetail;
 use App\Providers\ResponseBuilderServiceProvider;
@@ -48,6 +49,9 @@ class SaleController extends Controller
                         $save->save();
                         $details->sale_id = $save->id;
                         $details->save();
+                        if($this->updateStock($details->clothing_id,$details->amount)){
+                            $response = ResponseBuilderServiceProvider::buildResponse(true,"sale saved succesfully",array($save,$details));
+                        }
 
                     }else{
                         $response = ResponseBuilderServiceProvider::buildResponse(false,"clothe id not found",false);
@@ -79,6 +83,20 @@ class SaleController extends Controller
         }
 
         return response()->json($response);
+    }
+
+
+    private function updateStock($clothing_id,$amount){
+        $compare = Clothing::find($clothing_id);
+        if($amount <= $compare->stock){
+            //update stock
+            $compare->stock -= $amount;
+            $compare->save();
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 }

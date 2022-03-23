@@ -104,16 +104,8 @@ class CartController extends Controller
         return $response;
     }
 
-    // private function updateStock($clothing_id,$amount){
-    //     $compare = Clothing::find($clothing_id);
-    //     if($amount <= $compare->stock){
-    //         //update stock
-    //         $compare->stock -= $amount;
-    //         $compare->save();
-    //         return true;
-    //     }else{
-    //         return false;
-    //     }
 
-    // }
+
+
+
 }
