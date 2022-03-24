@@ -61,7 +61,7 @@ class CartController extends Controller
             }
             $response = ResponseBuilderServiceProvider::buildResponse(true,"All your cart",$find);
         }else{
-            $response = ResponseBuilderServiceProvider::buildResponse(false,"This user dont have any cart products",false);
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"You dont have any products in your cart",false);
         }
         return $response;
 

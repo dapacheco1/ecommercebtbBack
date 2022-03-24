@@ -49,7 +49,7 @@ class SaleController extends Controller
                         $resAux = $this->updateStock($details->clothing_id,$details->amount);
 
                         if($resAux==0){
-                            echo 'why';
+
                             $save->save();
                             $details->sale_id = $save->id;
                             $details->save();
@@ -84,11 +84,8 @@ class SaleController extends Controller
         $compare = Clothing::find($clothing_id);
         //update stock
 
-
-
-        $compare->stock -= $amount;
-
-        if(($amount < $compare->stock) && ($compare->stock>0)){
+        if(($amount <= $compare->stock) && ($compare->stock>0)){
+            $compare->stock -= $amount;
             $compare->save();
             return 0;
         }else{
