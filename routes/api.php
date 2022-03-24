@@ -53,6 +53,6 @@ Route::get('/cart/{iduser}/{idcloth}',[CartController::class,"getItemCart"]);
 
 
 Route::post('/sell',[SaleController::class,"registerSale"]);
-Route::get('/sell/{id}',[SaleController::class,"historySaleByUserId"]);
+Route::get('/sell/{id}',[SaleController::class,"historySaleByUserId"])->middleware('auth');
 
 //Route::post('/update/{cl}/{am}',[SaleController::class,"updateStock"]); only for test purpose
