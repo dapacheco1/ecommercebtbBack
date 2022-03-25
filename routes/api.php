@@ -51,6 +51,8 @@ Route::get('/cart/{id}',[CartController::class,"getCartByUserId"]);
 
 Route::get('/cart/{iduser}/{idcloth}',[CartController::class,"getItemCart"]);
 
+Route::get('/categories',[CategoryController::class,"getCategories"]);
+
 
 Route::post('/sell',[SaleController::class,"registerSale"]);
 Route::get('/sell/{id}',[SaleController::class,"historySaleByUserId"]);

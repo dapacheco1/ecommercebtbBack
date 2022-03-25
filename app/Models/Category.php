@@ -11,7 +11,7 @@ class Category extends Model
 
     protected $table = "categories";
 
-    protected $fillable = ["detail","status"];
+    protected $fillable = ["slug", "detail","status"];
 
     #direct relationship
     public function sizes(){

@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    public function addCategory(Request $request){
+        
+
+    }
+
+
+
     public function getCategories(){
         $cat = Category::all();
         $response = [];
