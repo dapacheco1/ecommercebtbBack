@@ -76,4 +76,23 @@ class ClothingController extends Controller
 
         return $response;
     }
+
+
+    public function getAllClothes(){
+        $req = Clothing::all();
+        $response = [];
+        if(count($req)>0){
+            foreach($req as $r){
+                $r->category;
+                $r->size;
+                $r->genre;
+            }
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"all clothes",$req);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"no clothes available",false);
+
+        }
+        return response()->json($response);
+        
+    }
 }

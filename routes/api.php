@@ -38,6 +38,7 @@ Route::get('/sizes',[SizeController::class,"getSizes"]);
 // Route::get('/person',[PersonController::class,"getPersons"]);
 
 Route::post('/clothing',[ClothingController::class,"createClothes"]);
+Route::get('/clothing',[ClothingController::class,"getAllClothes"]);
 Route::get('/clothing/{category}',[ClothingController::class,"getClothes"]);
 
 Route::post('/users',[UserController::class,"createUser"]);
