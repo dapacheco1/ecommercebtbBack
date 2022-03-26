@@ -53,6 +53,7 @@ Route::get('/cart/{iduser}/{idcloth}',[CartController::class,"getItemCart"]);
 
 Route::get('/categories',[CategoryController::class,"getCategories"]);
 Route::post('/categories',[CategoryController::class,"addCategory"]);
+Route::put('/categories',[CategoryController::class,"updateCategory"]);
 Route::delete('/categories/{id}',[CategoryController::class,"deleteCategoryById"]);
 
 Route::post('/sell',[SaleController::class,"registerSale"]);

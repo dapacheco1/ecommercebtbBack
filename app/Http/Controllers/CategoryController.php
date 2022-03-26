@@ -57,4 +57,25 @@ class CategoryController extends Controller
 
         return response()->json($response);
     }
+
+    public function updateCategory(Request $request){
+
+        $findId = Category::find($request->id);
+        $existSlug = Category::where("slug",$request->slug)->get();
+
+        $response = [];
+
+        if($findId && count($existSlug)!=2){
+            $findId->id = $request->id;
+            $findId->slug = $request->slug;
+            $findId->detail = $request->detail;
+            $findId->status = $request->status;
+            $findId->save();
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"Category Updated Succesfully",$findId);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"Cannot update category",false);
+        }
+
+        return response()->json($response);
+    }
 }
