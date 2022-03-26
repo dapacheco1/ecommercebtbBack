@@ -10,6 +10,27 @@ use Illuminate\Http\Request;
 
 class ClothingController extends Controller
 {
+
+    public function createClothes(Request $request){
+
+        $response = [];
+
+        $clt = new Clothing();
+        $clt->category_id = $request->category_id;
+        $clt->size_id = $request->size_id;
+        $clt->price = $request->price;
+        $clt->stock = $request->stock;
+        $clt->image = $request->image;
+        $clt->name = $request->name;
+        $clt->detail = $request->detail;
+        $clt->genre_id =$request->genre_id;
+        $clt->status = $request->status;
+        $clt->save();
+        $response = ResponseBuilderServiceProvider::buildResponse(true,"Clothe created",$clt);
+        return response()->json($response);
+    }
+
+
     public function getClothes($categorySlug){
         //$clothe  = Clothing::where("category_id",$categoryId)->get();
         $slugR = validateExistanceServiceProvider::validateExistanceData($categorySlug,Category::class,"slug");

@@ -30,13 +30,14 @@ Route::get('/genre',[GenreController::class,"getGenres"]);
 // Route::post('/rol',[RolController::class,"createRol"]);
 // Route::get('/rol',[RolController::class,"getRols"]);
 //Route::get('/categories',[CategoryController::class,"getCategories"]);
-//Route::get('/sizes',[SizeController::class,"getSizes"]);
+Route::get('/sizes',[SizeController::class,"getSizes"]);
 
 
 ######## FOR ADMIN CORE AND CLIENT FRONT-END##########
 // Route::post('/person',[PersonController::class,"createPerson"]);
 // Route::get('/person',[PersonController::class,"getPersons"]);
 
+Route::post('/clothing',[ClothingController::class,"createClothes"]);
 Route::get('/clothing/{category}',[ClothingController::class,"getClothes"]);
 
 Route::post('/users',[UserController::class,"createUser"]);
@@ -55,6 +56,8 @@ Route::get('/categories',[CategoryController::class,"getCategories"]);
 Route::post('/categories',[CategoryController::class,"addCategory"]);
 Route::put('/categories',[CategoryController::class,"updateCategory"]);
 Route::delete('/categories/{id}',[CategoryController::class,"deleteCategoryById"]);
+
+
 
 Route::post('/sell',[SaleController::class,"registerSale"]);
 Route::get('/sell/{id}',[SaleController::class,"historySaleByUserId"]);
