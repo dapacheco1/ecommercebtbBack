@@ -95,4 +95,51 @@ class ClothingController extends Controller
         return response()->json($response);
         
     }
+
+
+
+    public function deleteClotheById($id){
+        $find = Clothing::find($id);
+
+        $response  = [];
+
+        if($find){
+            $find->delete();
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"clothe deleted",$find);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"no clothe found",false);
+        }
+
+        return response()->json($response);
+    }
+
+
+    public function updateClotheById(Request $request){
+        $find = Clothing::find($request->id);
+
+        $response = [];
+        
+        if($find){
+            $find->category_id = $request->category_id;
+            $find->size_id = $request->size_id;
+            $find->price = $request->price;
+            $find->stock = $request->stock;
+            $find->image = $request->image;
+            $find->name = $request->name;
+            $find->detail = $request->detail;
+            $find->genre_id = $request->genre_id;
+            $find->status  = $request->status;
+
+            $find->save();
+
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"Clothe update successfully",$find);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"Cannot update clothe",false);
+        }
+
+
+        return response()->json($response);
+
+    }
+
 }

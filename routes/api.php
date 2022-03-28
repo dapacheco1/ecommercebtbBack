@@ -40,6 +40,8 @@ Route::get('/sizes',[SizeController::class,"getSizes"]);
 Route::post('/clothing',[ClothingController::class,"createClothes"]);
 Route::get('/clothing',[ClothingController::class,"getAllClothes"]);
 Route::get('/clothing/{category}',[ClothingController::class,"getClothes"]);
+Route::delete('/clothing/{id}',[ClothingController::class,"deleteClotheById"]);
+Route::put('/clothing',[ClothingController::class,"updateClotheById"]);
 
 Route::post('/users',[UserController::class,"createUser"]);
 //Route::get('/users',[UserController::class,"getPersons"]);
