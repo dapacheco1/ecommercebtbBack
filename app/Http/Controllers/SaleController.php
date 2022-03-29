@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Clothing;
 use App\Models\Sale;
 use App\Models\saleDetail;
+use App\Models\User;
 use App\Providers\ResponseBuilderServiceProvider;
+use App\Providers\validateExistanceServiceProvider;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -16,60 +18,68 @@ class SaleController extends Controller
         //build sale
         $save = new Sale();
         $save->user_id = $request->user_id;
-        $save->saleDate = $request->saleDate;
-        $save->saleHour = $request->saleHour;
-        $save->taxIVA = $request->taxIVA;
-        $save->subtotal = $request->subtotal;
-        $save->total = $save->subtotal + $save->taxIVA;
-        $save->status = $request->status;
+        $exist_user = validateExistanceServiceProvider::validateExistanceData($request->user_id,User::class,"id");
 
-        $response = [];
 
-        if (strtoupper($save->status) == 'S') {
-            //get cart info
-            $cart = new CartController();
-            $res = $cart->getCartByUserId($save->user_id);
+        if($exist_user["success"]){
+            $save->saleDate = $request->saleDate;
+            $save->saleHour = $request->saleHour;
+            $save->taxIVA = $request->taxIVA;
+            $save->subtotal = $request->subtotal;
+            $save->total = $save->subtotal + $save->taxIVA;
+            $save->status = $request->status;
 
-            if ($res["success"]) {
+            $response = [];
 
-                foreach ($res["data"] as $re) {
-                    //save detail
-                    $details = new saleDetail();
-                    $details->sale_id = $save->id;
-                    $details->clothing_id = $re->clothing_id;
-                    $details->amount = $re->amount;
+            if (strtoupper($save->status) == 'S') {
+                //get cart info
+                $cart = new CartController();
+                $res = $cart->getCartByUserId($save->user_id);
 
-                    //get clothing price
-                    $aux = new ClothingController();
+                if ($res["success"]) {
 
-                    $expect = $aux->getClotheById($details->clothing_id);
+                    foreach ($res["data"] as $re) {
+                        //save detail
+                        $details = new saleDetail();
+                        $details->sale_id = $save->id;
+                        $details->clothing_id = $re->clothing_id;
+                        $details->amount = $re->amount;
 
-                    if ($expect["success"]) {
-                        $details->clothingprice = $expect["data"]->price;
-                        $details->totalprice = $re->total;
-                        $resAux = $this->updateStock($details->clothing_id, $details->amount);
+                        //get clothing price
+                        $aux = new ClothingController();
 
-                        if ($resAux == 0) {
+                        $expect = $aux->getClotheById($details->clothing_id);
 
-                            $save->save();
-                            $details->sale_id = $save->id;
-                            $details->save();
-                            //delete cart
-                            $cartO = new CartController();
-                            $crRes = $cartO->deleteCartByUserId($save->user_id);
-                            $response = ResponseBuilderServiceProvider::buildResponse(true, "sale saved succesfully", array($save, $details));
-                        } else {
-                            $response = ResponseBuilderServiceProvider::buildResponse(false, "One or more products are out stock", false);
-                            break;
+                        if ($expect["success"]) {
+                            $details->clothingprice = $expect["data"]->price;
+                            $details->totalprice = $re->total;
+                            $resAux = $this->updateStock($details->clothing_id, $details->amount);
+
+                            if ($resAux == 0) {
+
+                                $save->save();
+                                $details->sale_id = $save->id;
+                                $details->save();
+                                //delete cart
+                                $cartO = new CartController();
+                                $crRes = $cartO->deleteCartByUserId($save->user_id);
+                                $response = ResponseBuilderServiceProvider::buildResponse(true, "sale saved succesfully", array($save, $details));
+                            } else {
+                                $response = ResponseBuilderServiceProvider::buildResponse(false, "One or more products are out stock", false);
+                                break;
+                            }
                         }
                     }
+                } else {
+                    $response = ResponseBuilderServiceProvider::buildResponse(false, "cart doesnt have data with this user", false);
                 }
             } else {
-                $response = ResponseBuilderServiceProvider::buildResponse(false, "cart doesnt have data with this user", false);
+                $response = ResponseBuilderServiceProvider::buildResponse(false, "status doesnt permit this action", false);
             }
-        } else {
-            $response = ResponseBuilderServiceProvider::buildResponse(false, "status doesnt permit this action", false);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"invalid user id",false);
         }
+
 
 
 

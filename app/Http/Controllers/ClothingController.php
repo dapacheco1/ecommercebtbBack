@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Clothing;
+use App\Models\Genre;
+use App\Models\Size;
 use App\Providers\ResponseBuilderServiceProvider;
 use App\Providers\validateExistanceServiceProvider;
 use Illuminate\Http\Request;
@@ -18,15 +20,24 @@ class ClothingController extends Controller
         $clt = new Clothing();
         $clt->category_id = $request->category_id;
         $clt->size_id = $request->size_id;
-        $clt->price = $request->price;
-        $clt->stock = $request->stock;
-        $clt->image = $request->image;
-        $clt->name = $request->name;
-        $clt->detail = $request->detail;
         $clt->genre_id =$request->genre_id;
-        $clt->status = $request->status;
-        $clt->save();
-        $response = ResponseBuilderServiceProvider::buildResponse(true,"Clothe created",$clt);
+        $exist_cat = validateExistanceServiceProvider::validateExistanceData($request->category_id,Category::class,"id");
+        $exist_size = validateExistanceServiceProvider::validateExistanceData($request->size_id,Size::class,"id");
+        $exist_genre = validateExistanceServiceProvider::validateExistanceData($request->genre_id,Genre::class,"id");
+        if($exist_cat["success"] && $exist_size["success"] && $exist_genre["success"]){
+            $clt->price = $request->price;
+            $clt->stock = $request->stock;
+            $clt->image = $request->image;
+            $clt->name = $request->name;
+            $clt->detail = $request->detail;
+
+            $clt->status = $request->status;
+            $clt->save();
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"Clothe created",$clt);
+        }else{
+            $response = ResponseBuilderServiceProvider::buildResponse(false,"Cannot create the clothe",false);
+        }
+
         return response()->json($response);
     }
 
@@ -93,7 +104,7 @@ class ClothingController extends Controller
 
         }
         return response()->json($response);
-        
+
     }
 
 
@@ -118,7 +129,7 @@ class ClothingController extends Controller
         $find = Clothing::find($request->id);
 
         $response = [];
-        
+
         if($find){
             $find->category_id = $request->category_id;
             $find->size_id = $request->size_id;
