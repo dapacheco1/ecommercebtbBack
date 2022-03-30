@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\DB;
 class saleDetailController extends Controller
 {
     public function getMostSell($top){
-        $find = DB::table('salesdetail') 
-        ->select(DB::raw('clothing_id,COUNT(clothing_id) as amount,clothingprice, ROUND(COUNT(clothing_id)*clothingprice,2) as totalprice'))
+        $find = saleDetail::select(DB::raw('clothing_id,COUNT(clothing_id) as amount,clothingprice, ROUND(COUNT(clothing_id)*clothingprice,2) as totalprice'))
         ->groupBy('clothing_id')
         ->orderByRaw('COUNT(*) DESC')
         ->limit($top)
@@ -20,6 +19,9 @@ class saleDetailController extends Controller
         $response = [];
 
         if(count($find)){
+            foreach($find as $f){
+                $f->clothing;
+            }
             $response = ResponseBuilderServiceProvider::buildResponse(true,"The top ten sold products",$find);
         }else{
             $response = ResponseBuilderServiceProvider::buildResponse(false,"Not products sold yet",false);

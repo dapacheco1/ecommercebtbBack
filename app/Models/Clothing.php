@@ -18,6 +18,10 @@ class Clothing extends Model
         return $this->hasMany(Cart::class);
     }
 
+    public function saleDetail(){
+        return $this->hasMany(saleDetail::class);
+    }
+
     #inverse relationship
     public function category(){
         return $this->belongsTo(Category::class);

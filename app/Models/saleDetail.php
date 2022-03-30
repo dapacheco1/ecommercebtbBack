@@ -16,4 +16,8 @@ class saleDetail extends Model
     public function sale(){
         return $this->belongsTo(Sale::class);
     }
+
+    public function clothing(){
+        return $this->belongsTo(Clothing::class);
+    }
 }
