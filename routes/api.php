@@ -7,6 +7,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\saleDetailController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -64,5 +65,7 @@ Route::delete('/categories/{id}',[CategoryController::class,"deleteCategoryById"
 
 Route::post('/sell',[SaleController::class,"registerSale"]);
 Route::get('/sell/{id}',[SaleController::class,"historySaleByUserId"]);
+
+Route::get('/reports',[saleDetailController::class,"getMostSell"]);
 
 //Route::post('/update/{cl}/{am}',[SaleController::class,"updateStock"]); only for test purpose
