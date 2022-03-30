@@ -66,6 +66,6 @@ Route::delete('/categories/{id}',[CategoryController::class,"deleteCategoryById"
 Route::post('/sell',[SaleController::class,"registerSale"]);
 Route::get('/sell/{id}',[SaleController::class,"historySaleByUserId"]);
 
-Route::get('/reports',[saleDetailController::class,"getMostSell"]);
+Route::get('/reports/{top}',[saleDetailController::class,"getMostSell"]);
 
 //Route::post('/update/{cl}/{am}',[SaleController::class,"updateStock"]); only for test purpose
