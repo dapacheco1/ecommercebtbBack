@@ -22,7 +22,7 @@ class saleDetailController extends Controller
             foreach($find as $f){
                 $f->clothing;
             }
-            $response = ResponseBuilderServiceProvider::buildResponse(true,"The top ten sold products",$find);
+            $response = ResponseBuilderServiceProvider::buildResponse(true,"The top sold products",$find);
         }else{
             $response = ResponseBuilderServiceProvider::buildResponse(false,"Not products sold yet",false);
 
