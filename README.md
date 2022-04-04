@@ -18,7 +18,7 @@
 - Created By: Danny Pacheco under Bitexblock
 
 # Bitexblock members
-- [sfloreano](https://github.com/sfloreano)
+- @github/sfloreano
 
 ## License
 
